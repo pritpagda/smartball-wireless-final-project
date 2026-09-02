@@ -1,10 +1,10 @@
 # SmartBall: Sensor-Equipped Ball for Sports Analytics
 
-This repository contains a reconstructed implementation of the SmartBall final project for CIS4930 Wireless & Mobile Computing. The original source code was not preserved, so this version was rebuilt from the final course report, presentation, and demo materials to match the documented system architecture and behavior as closely as possible. [file:13][file:1][file:12]
+This repository contains a reconstructed implementation of the SmartBall final project for CIS4930 Wireless & Mobile Computing. The original source code was not preserved, so this version was rebuilt from the final course report, presentation, and demo materials to match the documented system architecture and behavior as closely as possible.
 
 ## Overview
 
-SmartBall is a low-cost sports analytics prototype that embeds sensing and wireless communication directly inside a game ball. The system uses an ESP32 microcontroller and an MPU6050 IMU to detect throws, collect motion data, and transmit that data over Wi-Fi using UDP to a base station running a Python listener. [file:13][file:1]
+SmartBall is a low-cost sports analytics prototype that embeds sensing and wireless communication directly inside a game ball. The system uses an ESP32 microcontroller and an MPU6050 IMU to detect throws, collect motion data, and transmit that data over Wi-Fi using UDP to a base station running a Python listener.
 
 The listener processes incoming throw samples in real time and computes:
 - Release time
@@ -12,7 +12,7 @@ The listener processes incoming throw samples in real time and computes:
 - Peak acceleration
 - Peak rotational velocity
 - Expected throw distance
-- Throw strength classification [file:13][file:1]
+- Throw strength classification
 
 ## System Architecture
 
@@ -23,7 +23,7 @@ The project has two main parts:
    - Calibrates gyro bias at startup
    - Maintains a circular pre-roll buffer
    - Detects a throw using acceleration or angular velocity thresholds
-   - Sends throw data over UDP using `START` and `END` markers [file:13]
+   - Sends throw data over UDP using `START` and `END` markers
 
 2. **Python listener**
    - Listens on UDP port `4210`
@@ -31,14 +31,14 @@ The project has two main parts:
    - Detects the release point from acceleration behavior
    - Estimates release speed by integrating linear acceleration
    - Predicts expected throw distance using a calibrated quadratic model
-   - Logs each processed throw to CSV [file:13][file:12]
+   - Logs each processed throw to CSV
 
 ## Files
 
-- `smartball_esp32.ino` — ESP32 Arduino code for throw detection and UDP streaming [file:13]
-- `smartball_listener.py` — Python listener for real-time throw processing and CSV logging [file:13]
-- `Course-Project-Report.pdf` — final written report describing the full system and algorithm [file:13]
-- `Wireless-Final-Project.pptx` — presentation slides summarizing the design and results [file:1]
+- `smartball_esp32.ino` — ESP32 Arduino code for throw detection and UDP streaming
+- `smartball_listener.py` — Python listener for real-time throw processing and CSV logging
+- `Course-Project-Report.pdf` — final written report describing the full system and algorithm
+- `Wireless-Final-Project.pptx` — presentation slides summarizing the design and results
 
 ## Hardware
 
@@ -48,11 +48,11 @@ The documented prototype uses:
 - MT3608 DC-DC boost converter
 - 3.7V 3000mAh LiPo battery
 - Toggle switches
-- TP4056 USB-C charger module [file:13]
+- TP4056 USB-C charger module
 
 The report states that the MPU6050 is connected to the ESP32 using:
 - `SDA_PIN = 25`
-- `SCL_PIN = 27` [file:13]
+- `SCL_PIN = 27`
 
 ## Documented ESP32 Behavior
 
@@ -63,7 +63,7 @@ According to the report, the ESP32 side uses:
 - Gyroscope trigger: `6.0 rad/s`
 - Post-trigger transmission window: 900 ms
 - Cooldown period: 1500 ms
-- Gyroscope calibration: 500 stationary samples [file:13]
+- Gyroscope calibration: 500 stationary samples
 
 Each UDP sample is sent in this format:
 
@@ -73,7 +73,7 @@ t_ms, ax, ay, az, gx, gy, gz
 
 The sender also transmits:
 - `START` before throw samples
-- `END` after throw capture finishes [file:13]
+- `END` after throw capture finishes
 
 ## Documented Listener Behavior
 
@@ -89,16 +89,16 @@ The listener described in the report uses:
 - `MAX_RELEASE_TIME_SEC = 0.95`
 - `MAX_INTEGRATION_WINDOW_SEC = 0.30`
 - Valid speed range: `0.5` to `10.0 m/s`
-- Distance model: `expected_distance = 0.055 * speed^2 + 0.0` [file:13]
+- Distance model: `expected_distance = 0.055 * speed^2 + 0.0`
 
 Throw strength is classified as:
 - `weak` if speed < 2.0 m/s
 - `medium` if speed is between 2.0 and 4.5 m/s
-- `strong` if speed > 4.5 m/s [file:13]
+- `strong` if speed > 4.5 m/s
 
 ## Results
 
-The final report states that 38 valid throws were collected in a controlled environment at about 11 ft (3.35 m), and the system achieved an average estimated throw distance of 3.48 m versus a true distance of 3.35 m, corresponding to roughly 4% average error. The average release speed was about 7.94 m/s, with average peak acceleration of 183.94 m/s² and average peak rotation of 26.14 rad/s. [file:13]
+The final report states that 38 valid throws were collected in a controlled environment at about 11 ft (3.35 m), and the system achieved an average estimated throw distance of 3.48 m versus a true distance of 3.35 m, corresponding to roughly 4% average error. The average release speed was about 7.94 m/s, with average peak acceleration of 183.94 m/s² and average peak rotation of 26.14 rad/s.
 
 ## Setup
 
@@ -112,7 +112,7 @@ The final report states that 38 valid throws were collected in a controlled envi
    - `WIFI_SSID`
    - `WIFI_PASS`
    - `LISTENER_IP`
-4. Flash the sketch to the ESP32. [file:13]
+4. Flash the sketch to the ESP32.
 
 ### Python Listener
 
@@ -125,18 +125,18 @@ The final report states that 38 valid throws were collected in a controlled envi
    ```bash
    python smartball_listener.py
    ```
-4. The listener will wait for UDP packets on port `4210`. [file:13]
+4. The listener will wait for UDP packets on port `4210`.
 
 ## Notes
 
-This repository is a reconstructed implementation, not the original final codebase. It was rebuilt from the documented algorithms, constants, screenshots, presentation, and demo transcript after the original source code was unavailable. Some implementation details such as Wi-Fi credentials and any undocumented tuning choices may differ from the original project version. [file:13][file:1][file:12]
+This repository is a reconstructed implementation, not the original final codebase. It was rebuilt from the documented algorithms, constants, screenshots, presentation, and demo transcript after the original source code was unavailable. Some implementation details such as Wi-Fi credentials and any undocumented tuning choices may differ from the original project version.
 
 ## Course
 
-CIS4930-005 Wireless & Mobile Computing [file:13]
+CIS4930 Wireless & Mobile Computing
 
 ## Authors
 
 Anthony Lozbin  
 Pritkumar Pagda  
-Jacob Moran [file:13]
+Jacob Moran
